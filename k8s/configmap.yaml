@@ -1,0 +1,12 @@
+# 4. k8s/configmap.yaml
+# Purpose: Store configuration (non-secret)
+# Example: Database URLs, log levels, etc.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ad-optimizer-config
+  namespace: ad-optimizer
+data:
+  LOG_LEVEL: "INFO"
+  ENVIRONMENT: "production"
