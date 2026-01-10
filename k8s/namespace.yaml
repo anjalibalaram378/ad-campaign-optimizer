@@ -1,0 +1,8 @@
+# 1. k8s/namespace.yaml
+# Purpose: Organize resources (like a folder for K8s)
+# Creates: "ad-optimizer" namespace to group all project files
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ad-optimizer
