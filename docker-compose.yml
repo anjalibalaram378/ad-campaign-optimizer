@@ -1,66 +1,61 @@
-version: "3.8"
-
 services:
-  ad-optimizer:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: multi-agent-ad-optimizer
-    image: ad-optimizer:latest
-     # Add this under the service
-
-    command: uvicorn api.app:app --host 0.0.0.0 --port 8000
-
-    # Environment variables
-    environment:
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - KAGGLE_USERNAME=${KAGGLE_USERNAME:-}
-      - KAGGLE_KEY=${KAGGLE_KEY:-}
-      - LOG_LEVEL=${LOG_LEVEL:-INFO}
-      - PYTHONUNBUFFERED=1
-    
+  # FastAPI App
+  app:
+    build: .
+    container_name: ad-optimizer
     ports:
       - "8000:8000"
-
-    # Volume mappings for data persistence
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      ENVIRONMENT: development
     volumes:
+      - ./api:/app/api
+      - ./monitoring:/app/monitoring
       - ./data:/app/data
       - ./results:/app/results
-      - ./learnings:/app/learnings:ro  # Read-only learnings
-
-    # Restart policy for production
-    restart: unless-stopped
-
-    # Resource limits (adjust based on your needs)
-    deploy:
-      resources:
-        limits:
-          cpus: '2.0'
-          memory: 4G
-        reservations:
-          cpus: '0.5'
-          memory: 1G
-
-    # Networking
+    command: uvicorn api.app:app --host 0.0.0.0 --port 8000
     networks:
-      - ad-optimizer-network
+      - monitoring
 
-    # Health check
-    healthcheck:
-      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
+  # Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/etc/prometheus/console_libraries"
+      - "--web.console.templates=/etc/prometheus/consoles"
+    networks:
+      - monitoring
+    depends_on:
+      - app
 
-    # Logging configuration
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
+  # Grafana
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_SECURITY_ADMIN_USER: admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - monitoring
+    depends_on:
+      - prometheus
+
+volumes:
+  prometheus_data:
+  grafana_data:
 
 networks:
-  ad-optimizer-network:
+  monitoring:
     driver: bridge
-    name: ad-optimizer-network
