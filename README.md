@@ -1,3 +1,14 @@
+---
+title: Multi-Agent Ad Campaign Optimizer
+emoji: 🔥
+colorFrom: blue
+colorTo: purple
+sdk: gradio
+sdk_version: "4.x"
+app_file: ui/gradio_app.py
+pinned: false
+---
+
 # 🎯 Multi-Agent Ad Campaign Optimizer + MLOps
 
 **Production-grade multi-agent system with full MLOps stack**
@@ -53,6 +64,21 @@ Companies like Google, Meta, and startups spend $billions on digital ads but str
 ✅ Code Quality Checks (black, flake8, mypy)
 ✅ Auto-deploy to Railway (on main branch)
 ```
+
+**View CI/CD Status in Real-Time:**
+
+Every time you push code, GitHub Actions automatically:
+- Runs all 20+ integration tests with `pytest`
+- Checks code formatting with `black`
+- Verifies code style with `flake8`
+- Validates type hints with `mypy`
+- Builds Docker image to verify containerization
+- Reports results: ✅ Green checkmark (pass) or ❌ Red X (fail)
+
+**Check your workflow:**
+👉 https://github.com/anjalibalaram378/ad-campaign-optimizer/actions
+
+You'll see each push running through all checks. Click any workflow to see detailed logs!
 
 ### Monitoring & Observability
 ✅ **Prometheus** - Metrics collection (requests, latency, errors)
@@ -114,16 +140,34 @@ docker-compose up --build
 open http://localhost:7860
 ```
 
-### Local Development
+### Try the Interactive Web UI (Recommended!) ⭐
+
+**Easiest Way: Gradio Web Interface**
+
+```bash
+# Start Gradio UI server
+python ui/gradio_app.py
+
+# Open your browser and go to:
+# http://localhost:7860
+```
+
+Then:
+1. ✏️ Paste your campaign data as JSON (or use sample data provided)
+2. 👆 Click **"🔥 OPTIMIZE CAMPAIGNS"** button
+3. 👀 Watch 5 AI agents optimize your campaigns in real-time!
+4. 🔄 Edit the JSON and click again to try different data
+
+**Advanced: Local Development**
 ```bash
 # Run FastAPI backend
-uvicorn main:app --reload
+uvicorn api/app.py --reload
 
 # Run Gradio UI (separate terminal)
 python ui/gradio_app.py
 
 # Run tests
-pytest tests/ -v --cov=src
+pytest tests/ -v --cov=. --cov-report=html
 ```
 
 ---
