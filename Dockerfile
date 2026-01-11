@@ -53,4 +53,5 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
 
 
 EXPOSE 7860
-CMD ["uvicorn", "api.app:app", "--host", "0.0.0.0", "--port", "7860"]
+CMD ["sh", "-c", "uvicorn api.app:app --host 0.0.0.0 --port 8000 & python ui/app.py"]
+
