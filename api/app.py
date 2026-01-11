@@ -9,12 +9,15 @@ from typing import Optional, Dict, Any
 from datetime import datetime
 import os
 import sys
+<<<<<<< HEAD
+=======
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
 from monitoring.metrics import (request_count, request_duration,
       agent_execution_time, agent_success, agent_failures,
       active_optimizations
   )
 import time
+>>>>>>> source/main
 
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
@@ -39,11 +42,14 @@ app.add_middleware(
 
 
 # Models
+<<<<<<< HEAD
+=======
 class CampaignData(BaseModel):
     """Request model for campaign optimization"""
     campaigns: list = Field(..., description="List of campaign dictionaries")
 
 
+>>>>>>> source/main
 class OptimizationResponse(BaseModel):
     status: str
     execution_time: float
@@ -86,6 +92,12 @@ def readiness_check():
 
 # Optimization endpoints
 @app.post("/v1/optimize", response_model=OptimizationResponse)
+<<<<<<< HEAD
+async def optimize_campaigns():
+    """
+    Run 5-agent optimization on campaign data
+
+=======
 async def optimize_campaigns(data: CampaignData):
     """
     Run 5-agent optimization on campaign data
@@ -93,6 +105,7 @@ async def optimize_campaigns(data: CampaignData):
     Args:
         data: CampaignData containing list of campaigns
 
+>>>>>>> source/main
     Returns detailed optimization report with:
     - Campaign performance analysis
     - Bid optimization recommendations
@@ -102,11 +115,21 @@ async def optimize_campaigns(data: CampaignData):
     try:
         start = datetime.now()
 
+<<<<<<< HEAD
+        # Load data
+        print("Loading campaign data...")
+        campaign_df = load_campaign_data()
+        campaign_data = campaign_df.to_dict("records")
+
+        if not campaign_data:
+            raise HTTPException(400, "No campaign data available")
+=======
         # Use provided campaign data
         campaign_data = data.campaigns
 
         if not campaign_data:
             raise HTTPException(400, "No campaign data provided")
+>>>>>>> source/main
 
         # Run crew
         print(f"Running optimization on {len(campaign_data)} campaigns...")
@@ -175,6 +198,8 @@ def get_campaign_summary():
         print(f"Error in get_campaign_summary: {error_details}")
         raise HTTPException(500, f"Failed to load summary: {str(e)}")
 
+<<<<<<< HEAD
+=======
 # Add metrics endpoint
 from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 from fastapi import Request, Response
@@ -206,6 +231,7 @@ async def add_metrics(request: Request, call_next):
     return response
 
 
+>>>>>>> source/main
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000, log_level="info")

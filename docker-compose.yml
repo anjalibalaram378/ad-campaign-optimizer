@@ -1,3 +1,71 @@
+<<<<<<< HEAD
+version: "3.8"
+
+services:
+  ad-optimizer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: multi-agent-ad-optimizer
+    image: ad-optimizer:latest
+     # Add this under the service
+
+    command: uvicorn api.app:app --host 0.0.0.0 --port 8000
+
+    # Environment variables
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - KAGGLE_USERNAME=${KAGGLE_USERNAME:-}
+      - KAGGLE_KEY=${KAGGLE_KEY:-}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - PYTHONUNBUFFERED=1
+    
+    ports:
+      - "8000:8000"
+
+    # Volume mappings for data persistence
+    volumes:
+      - ./data:/app/data
+      - ./results:/app/results
+      - ./learnings:/app/learnings:ro  # Read-only learnings
+
+    # Restart policy for production
+    restart: unless-stopped
+
+    # Resource limits (adjust based on your needs)
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
+
+    # Networking
+    networks:
+      - ad-optimizer-network
+
+    # Health check
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  ad-optimizer-network:
+    driver: bridge
+    name: ad-optimizer-network
+=======
 services:
   # FastAPI App
   app:
@@ -59,3 +127,4 @@ volumes:
 networks:
   monitoring:
     driver: bridge
+>>>>>>> source/main

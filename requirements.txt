@@ -9,8 +9,13 @@ google-ads>=23.0.0
 facebook-business>=19.0.0
 requests>=2.31.0
 openpyxl>=3.1.0
+<<<<<<< HEAD
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+=======
 fastapi>=0.115.2
 uvicorn[standard]>=0.24.0
+>>>>>>> source/main
 
 # Testing Dependencies
 pytest>=7.4.0
@@ -29,8 +34,12 @@ isort>=5.13.0
 prometheus-client>=0.19.0
 
 # UI
+<<<<<<< HEAD
+gradio>=4.0.0
+=======
 gradio==5.50.0
 huggingface-hub>=0.21.0
+>>>>>>> source/main
 
 # Data Science
 numpy>=1.24.0
