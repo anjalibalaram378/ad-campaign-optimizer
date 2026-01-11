@@ -9,6 +9,12 @@ from typing import Optional, Dict, Any
 from datetime import datetime
 import os
 import sys
+from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
+from monitoring.metrics import (request_count, request_duration,
+      agent_execution_time, agent_success, agent_failures,
+      active_optimizations
+  )
+import time
 
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
@@ -33,6 +39,11 @@ app.add_middleware(
 
 
 # Models
+class CampaignData(BaseModel):
+    """Request model for campaign optimization"""
+    campaigns: list = Field(..., description="List of campaign dictionaries")
+
+
 class OptimizationResponse(BaseModel):
     status: str
     execution_time: float
@@ -75,9 +86,12 @@ def readiness_check():
 
 # Optimization endpoints
 @app.post("/v1/optimize", response_model=OptimizationResponse)
-async def optimize_campaigns():
+async def optimize_campaigns(data: CampaignData):
     """
     Run 5-agent optimization on campaign data
+
+    Args:
+        data: CampaignData containing list of campaigns
 
     Returns detailed optimization report with:
     - Campaign performance analysis
@@ -88,13 +102,11 @@ async def optimize_campaigns():
     try:
         start = datetime.now()
 
-        # Load data
-        print("Loading campaign data...")
-        campaign_df = load_campaign_data()
-        campaign_data = campaign_df.to_dict("records")
+        # Use provided campaign data
+        campaign_data = data.campaigns
 
         if not campaign_data:
-            raise HTTPException(400, "No campaign data available")
+            raise HTTPException(400, "No campaign data provided")
 
         # Run crew
         print(f"Running optimization on {len(campaign_data)} campaigns...")
@@ -162,6 +174,37 @@ def get_campaign_summary():
         error_details = traceback.format_exc()
         print(f"Error in get_campaign_summary: {error_details}")
         raise HTTPException(500, f"Failed to load summary: {str(e)}")
+
+# Add metrics endpoint
+from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
+from fastapi import Request, Response
+import time
+
+
+@app.get("/metrics")
+def metrics():
+    """Prometheus metrics endpoint"""
+    return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
+
+
+# Add middleware for request tracking
+@app.middleware("http")
+async def add_metrics(request: Request, call_next):
+    start_time = time.time()
+    response = await call_next(request)
+    process_time = time.time() - start_time
+
+    # Record metrics
+    request_count.labels(
+        method=request.method,
+        endpoint=request.url.path,
+        status=response.status_code,
+    ).inc()
+
+    request_duration.labels(endpoint=request.url.path).observe(process_time)
+
+    return response
+
 
 if __name__ == "__main__":
     import uvicorn

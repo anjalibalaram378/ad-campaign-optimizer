@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: ad-optimizer
-          image: your-registry/ad-optimizer:latest
+          image: docker.io/abalara2/ad-optimizer:latest
           ports:
             - containerPort: 8000
           env:
