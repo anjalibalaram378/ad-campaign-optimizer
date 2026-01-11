@@ -1,3 +1,4 @@
+
 ---
 title: Multi-Agent Ad Campaign Optimizer
 emoji: 🔥
@@ -13,11 +14,10 @@ pinned: false
 
 **Production-grade multi-agent system with full MLOps stack**
 
-[![Build Status](https://github.com/anjalibalaram378/ad-campaign-optimizer/workflows/CI%2FCD%20Pipeline/badge.svg)](https://github.com/anjalibalaram378/ad-campaign-optimizer/actions)
-[![Coverage](https://img.shields.io/badge/coverage-85%25-green.svg)](.)
+[![Build Status](https://github.com/yourusername/ad-optimizer/workflows/CI/badge.svg)](https://github.com/yourusername/ad-optimizer/actions)
+[![Coverage](https://img.shields.io/badge/coverage-80%25-green.svg)](.)
 [![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](.)
 [![Kubernetes](https://img.shields.io/badge/kubernetes-ready-blue.svg)](.)
-[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://huggingface.co/spaces/anjalimahanthi/ad-campaign-optimizer)
 
 ## 🚀 Industry Problem Solved
 
@@ -47,7 +47,7 @@ Companies like Google, Meta, and startups spend $billions on digital ads but str
 - **Backend**: FastAPI (with v1/v2 versioning)
 - **Frontend**: Gradio interactive UI
 - **Database**: ChromaDB for campaign history
-- **Deployment**: Hugging Face Spaces (Live) + Docker + Kubernetes
+- **Deployment**: Railway.app + Kubernetes
 
 ---
 
@@ -84,8 +84,8 @@ You'll see each push running through all checks. Click any workflow to see detai
 ### Monitoring & Observability
 ✅ **Prometheus** - Metrics collection (requests, latency, errors)
 ✅ **Grafana** - Real-time dashboards
-✅ **Health Checks** - Kubernetes liveness and readiness probes
-✅ **Error Tracking** - Comprehensive error logging and reporting
+✅ **Structured Logging** - JSON logs with correlation IDs
+✅ **Cost Tracking** - OpenAI API usage dashboard
 
 ### Production Best Practices
 ✅ **API Versioning** (`/v1/`, `/v2/`) - Backward compatibility
