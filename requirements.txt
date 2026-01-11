@@ -13,8 +13,8 @@ requests>=2.31.0
 fastapi>=0.115.2
 uvicorn[standard]>=0.24.0
 gradio==5.50.0
-huggingface-hub==0.27.1
-
+huggingface-hub==0.33.5
+requests>=2.31.0
 
 
 # Testing Dependencies
