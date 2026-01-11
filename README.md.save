@@ -1,14 +1,15 @@
 
 ---
-title: Multi-Agent Ad Campaign Optimizer
-emoji: 🔥
+title: Ad Campaign Optimizer
+emoji: 🚀
 colorFrom: blue
 colorTo: purple
 sdk: gradio
-sdk_version: "5.50.0"
-app_file: ui/gradio_app.py
+sdk_version: "4.44.1"
+app_file: app.py
 pinned: false
 ---
+
 
 # 🎯 Multi-Agent Ad Campaign Optimizer + MLOps
 
@@ -459,30 +460,7 @@ ad-campaign-optimizer/
 
 ---
 
-## 📝 Progress Log
 
-### Week 1 (Dec 29, 2025 - Jan 5, 2026) - Project 1 of 7:
-**Timeline**: 40 hours over 7-8 days
-
-**Implementation Schedule**:
-- ⬜ Days 1-2: 5 agents (CrewAI) + FastAPI setup | 12h
-- ⬜ Days 3-4: Docker + Docker Compose + Kubernetes manifests | 10h
-- ⬜ Days 5-6: GitHub Actions CI/CD + API versioning (v1, v2) + Testing | 10h
-- ⬜ Day 7: Gradio UI + Deployment to Railway/K8s | 8h
-
-**Total**: 40 hours | **Status**: 🔄 Planning (starts after tonight's multi-agent learning)
-
-**Part of**: [50-Day ML Mastery Plan](../daily-progress/daily-progress/ULTIMATE_50DAY_FINAL_PLAN.md) - 7 Production Projects
-
----
-
-## 🎥 Demo
-
-- **Live App**: https://ad-optimizer.railway.app (after deployment)
-- **Video Demo**: YouTube link (3-min walkthrough)
-- **Blog Post**: "Building Production Multi-Agent Systems with MLOps"
-
----
 
 ## 💼 Resume Highlights
 
@@ -499,7 +477,6 @@ ad-campaign-optimizer/
 MIT
 
 ## 👤 Author
-**Project 1 of 7** in 50-Day ML Mastery Plan (Dec 29, 2025 - Feb 15, 2026)
 Building production ML systems across AWS, Azure, and GCP with sustainable work-life balance!
 
 **Connect:** [LinkedIn](#) | [GitHub](#) | [Portfolio](../daily-progress/daily-progress/README.md)
