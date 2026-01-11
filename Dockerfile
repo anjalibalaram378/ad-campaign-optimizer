@@ -42,8 +42,8 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
 # CMD ["python", "main.py"]
 
 # Expose port (Cloud Run will override with PORT env var)
-EXPOSE 8000
+EXPOSE 7860
 
 # Run FastAPI - listen on PORT env var (Cloud Run sets this to 8080)
 # Default to 8000 if PORT not set
-CMD ["sh", "-c", "uvicorn api.app:app --host 0.0.0.0 --port 8080"]
+CMD ["sh", "-c", "uvicorn api.app:app --host 0.0.0.0 --port 7860"]
