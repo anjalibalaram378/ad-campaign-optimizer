@@ -245,7 +245,7 @@ This demo simulates how **AI agents** optimize ad campaigns across platforms (Go
         with gr.Tab("Raw JSON"):
             raw_json = gr.JSON(label="Raw API response")
         with gr.Tab("API Call (curl)"):
-            curl_box = gr.Code(label="Copy-paste curl", language="bash")
+            curl_box = gr.Code(label="Copy-paste curl", language="shell")
 
     optimize_btn.click(
         fn=optimize,
